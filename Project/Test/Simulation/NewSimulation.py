@@ -36,14 +36,14 @@ def configureSimulation(sim):
     
     CompuCell3DElmnt.ElementCC3D("Plugin",{"Name":"CenterOfMass"})
     PluginElmnt_3=CompuCell3DElmnt.ElementCC3D("Plugin",{"Name":"Contact"})
-    PluginElmnt_3.ElementCC3D("Energy",{"Type1":"Medium","Type2":"Medium"},"10.0")
+    PluginElmnt_3.ElementCC3D("Energy",{"Type1":"Medium","Type2":"Medium"},"0.0")
     
     # Define contact for cell types
     for cell in range(1, numCellTypes + 1):
         PluginElmnt_3.ElementCC3D("Energy",{"Type1":"Medium","Type2":str(cell)},"16.0")
-        for cell2 in range(cell + 1, numCellTypes + 1):
+        for cell2 in range(cell, numCellTypes + 1):
             PluginElmnt_3.ElementCC3D("Energy",{"Type1":str(cell),"Type2":str(cell2)},str(random.uniform(2.0, 16.0)))
-    PluginElmnt_3.ElementCC3D("NeighborOrder",{},"1")
+    PluginElmnt_3.ElementCC3D("NeighborOrder",{},"2")
     
     PluginElmnt_4=CompuCell3DElmnt.ElementCC3D("Plugin",{"Name":"Chemotaxis"})
     # Select chemical field?
@@ -51,7 +51,11 @@ def configureSimulation(sim):
     
     # Define chemotaxis for cell type
     # TODO: iterate over cell types
-    ChemicalFieldElmnt.ElementCC3D("ChemotaxisByType",{"ChemotactTowards":"1","Lambda":"300.0","Type":"1"})
+    if random.choice([True, False]):
+        for cell in range(1, numCellTypes + 1):
+            for cell2 in range(cell, numCellTypes + 1):
+                if random.choice([True, False]):
+                    ChemicalFieldElmnt.ElementCC3D("ChemotaxisByType",{"ChemotactTowards":str(cell),"Lambda":str(random.uniform(2.0, 300.0)),"Type":str(cell2)})
     
     # Define chemical field?
     SteppableElmnt=CompuCell3DElmnt.ElementCC3D("Steppable",{"Type":"FlexibleDiffusionSolverFE"})
