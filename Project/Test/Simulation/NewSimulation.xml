@@ -1,0 +1,104 @@
+<CompuCell3D Revision="20150808" Version="3.7.4">
+   
+   <Potts>
+      
+      <!-- Basic properties of CPM (GGH) algorithm -->
+      <Dimensions x="300" y="300" z="1"/>
+      <Steps>10000</Steps>
+      <Temperature>10.0</Temperature>
+      <NeighborOrder>2</NeighborOrder>
+   </Potts>
+   
+   <Plugin Name="CellType">
+      
+      <!-- Listing all cell types in the simulation -->
+      <CellType TypeId="0" TypeName="Medium"/>
+      <CellType TypeId="1" TypeName="A"/>
+      <CellType TypeId="2" TypeName="B"/>
+   </Plugin>
+   
+   <Plugin Name="Volume">
+      <VolumeEnergyParameters CellType="A" LambdaVolume="2.0" TargetVolume="25"/>
+      <VolumeEnergyParameters CellType="B" LambdaVolume="2.0" TargetVolume="25"/>
+   </Plugin>
+   
+   <Plugin Name="Surface">
+      <SurfaceEnergyParameters CellType="A" LambdaSurface="2.0" TargetSurface="25"/>
+      <SurfaceEnergyParameters CellType="B" LambdaSurface="2.0" TargetSurface="25"/>
+   </Plugin>
+   
+   <Plugin Name="CenterOfMass">
+      
+      <!-- Module tracking center of mass of each cell -->
+   </Plugin>
+   
+   <Plugin Name="Contact">
+      <!-- Specification of adhesion energies -->
+      <Energy Type1="Medium" Type2="Medium">10.0</Energy>
+      <Energy Type1="Medium" Type2="A">10.0</Energy>
+      <Energy Type1="Medium" Type2="B">10.0</Energy>
+      <Energy Type1="A" Type2="A">10.0</Energy>
+      <Energy Type1="A" Type2="B">10.0</Energy>
+      <Energy Type1="B" Type2="B">10.0</Energy>
+      <NeighborOrder>1</NeighborOrder>
+   </Plugin>
+   
+   <Plugin Name="Chemotaxis">
+      
+      <!-- You may repeat ChemicalField element for each chemical field declared in the PDE solvers -->
+      <!-- Specification of chemotaxis properties of select cell types. -->
+      <ChemicalField Name="FDS" Source="FlexibleDiffusionSolverFE">
+         <ChemotaxisByType ChemotactTowards="B" Lambda="300.0" Type="A"/>
+      </ChemicalField>
+   </Plugin>
+   
+   <Steppable Type="FlexibleDiffusionSolverFE">
+      
+      <!-- Specification of PDE solvers -->
+      <DiffusionField Name="FDS">
+         <DiffusionData>
+            <FieldName>FDS</FieldName>
+            <DiffusionConstant>0.1</DiffusionConstant>
+            <DecayConstant>1e-05</DecayConstant>
+            <!-- Additional options are: -->
+            <!-- <DoNotDiffuseTo>LIST YOUR CELL TYPES HERE</DoNotDiffuseTo> -->
+            <!-- <DoNotDecayIn>LIST YOUR CELL TYPES HERE</DoNotDecayIn> -->
+            <!-- <InitialConcentrationExpression>x*y</InitialConcentrationExpression> -->
+            <!-- <ConcentrationFileName>INITIAL CONCENTRATION FIELD - typically a file with path Simulation/NAME_OF_THE_FILE.txt</ConcentrationFileName> -->
+            <!-- To run solver for large diffusion constants you typically call solver multiple times - ExtraTimesPerMCS to specify additional calls to the solver in each MCS  -->
+            <!-- IMPORTANT: make sure not to mix this setting with the PDESolverCaller module! See manual for more information -->
+            <!-- <ExtraTimesPerMCS>0</ExtraTimesPerMCS> -->
+            <!-- <DeltaX>1.0</DeltaX> -->
+            <!-- <DeltaT>1.0</DeltaT> -->
+         </DiffusionData>
+         <BoundaryConditions>
+            <Plane Axis="X">
+               <ConstantValue PlanePosition="Min" Value="10.0"/>
+               <ConstantValue PlanePosition="Max" Value="5.0"/>
+               <!-- Other options are (examples): -->
+               <!-- <Periodic/> -->
+               <!-- <ConstantDerivative PlanePosition="Min" Value="10.0"/> -->
+            </Plane>
+            <Plane Axis="Y">
+               <ConstantDerivative PlanePosition="Min" Value="10.0"/>
+               <ConstantDerivative PlanePosition="Max" Value="5.0"/>
+               <!-- Other options are (examples): -->
+               <!-- <Periodic/> -->
+               <!-- <ConstantValue PlanePosition="Min" Value="10.0"/> -->
+            </Plane>
+         </BoundaryConditions>
+      </DiffusionField>
+   </Steppable>
+   
+   <Steppable Type="UniformInitializer">
+      
+      <!-- Initial layout of cells in the form of rectangular slab -->
+      <Region>
+         <BoxMin x="60" y="60" z="0"/>
+         <BoxMax x="240" y="240" z="1"/>
+         <Gap>0</Gap>
+         <Width>5</Width>
+         <Types>A,B</Types>
+      </Region>
+   </Steppable>
+</CompuCell3D>
