@@ -2,4 +2,5 @@
    <XMLScript Type="XMLScript">Simulation/NewSimulation.xml</XMLScript>
    <PythonScript Type="PythonScript">Simulation/NewSimulation.py</PythonScript>
    <Resource Type="Python">Simulation/NewSimulationSteppables.py</Resource>
+   <Resource Type="Python">Simulation/configureSimulation.py</Resource>
 </Simulation>

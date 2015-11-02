@@ -1,0 +1,5 @@
+* Allow for negative contact energy
+* Build a frozen wall to prevent cells from sticking
+* Add more variables from examples
+* Support more Chemotaxis field types?
+* Get command line args for simulation.py

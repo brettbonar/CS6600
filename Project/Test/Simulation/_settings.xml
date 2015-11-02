@@ -18,12 +18,12 @@
       <e Name="NumberOfLegendBoxes" Type="int">6</e>
       <e Name="NumberOfRecentSimulations" Type="int">3</e>
       <e Name="Projection" Type="int">0</e>
-      <e Name="SaveImageFrequency" Type="int">100</e>
+      <e Name="SaveImageFrequency" Type="int">1000</e>
       <e Name="SaveLatticeFrequency" Type="int">100</e>
       <e Name="ScreenUpdateFrequency" Type="int">10</e>
       <e Name="Screenshot_X" Type="int">600</e>
       <e Name="Screenshot_Y" Type="int">600</e>
-      <e Name="TabIndex" Type="int">2</e>
+      <e Name="TabIndex" Type="int">0</e>
    </Settings>
    <Settings Type="float">
       <e Name="ArrowLength" Type="float">1.0</e>
@@ -43,7 +43,25 @@
       <e Name="WindowColor" Type="color">#000000</e>
    </Settings>
    <Settings Type="dict">
-      <e Name="FieldParams" Type="dict"/>
+      <e Name="FieldParams" Type="dict">
+         <e Name="FDS" Type="dict">
+            <e Name="ArrowColor" Type="color">#ffffff</e>
+            <e Name="ArrowLength" Type="float">1.0</e>
+            <e Name="ContoursOn" Type="bool">False</e>
+            <e Name="FixedArrowColorOn" Type="bool">False</e>
+            <e Name="LegendEnable" Type="bool">True</e>
+            <e Name="MaxRange" Type="float">1.0</e>
+            <e Name="MaxRangeFixed" Type="bool">True</e>
+            <e Name="MinRange" Type="float">0.0</e>
+            <e Name="MinRangeFixed" Type="bool">False</e>
+            <e Name="NumberAccuracy" Type="int">2</e>
+            <e Name="NumberOfContourLines" Type="int">3</e>
+            <e Name="NumberOfLegendBoxes" Type="int">6</e>
+            <e Name="OverlayVectorsOn" Type="bool">False</e>
+            <e Name="ScalarIsoValues" Type="str"/>
+            <e Name="ScaleArrowsOn" Type="bool">False</e>
+         </e>
+      </e>
       <e Name="TypeColorMap" Type="dict">
          <e Name="0" Type="color">#000000</e>
          <e Name="1" Type="color">#00ff00</e>
@@ -59,9 +77,9 @@
       </e>
       <e Name="WindowsLayout" Type="dict">
          <e Name="0" Type="dict">
-            <e Name="cameraClippingRange" Type="floatlist">160.48929282,164.54205274</e>
-            <e Name="cameraFocalPoint" Type="floatlist">49.6851652278,48.4258261388,0.0</e>
-            <e Name="cameraPosition" Type="floatlist">49.6851652278,48.4258261388,162.110396788</e>
+            <e Name="cameraClippingRange" Type="floatlist">503.684150747,516.403447483</e>
+            <e Name="cameraFocalPoint" Type="floatlist">145.060738049,-13.2881676658,0.0</e>
+            <e Name="cameraPosition" Type="floatlist">145.060738049,-13.2881676658,508.771869441</e>
             <e Name="cameraViewUp" Type="floatlist">0.0,1.0,0.0</e>
             <e Name="is3D" Type="bool">False</e>
             <e Name="planeName" Type="str">XY</e>
@@ -69,14 +87,14 @@
             <e Name="sceneName" Type="str">Cell_Field</e>
             <e Name="sceneType" Type="str">CellField</e>
             <e Name="winPosition" Type="point">0,0</e>
-            <e Name="winSize" Type="size">1084,548</e>
+            <e Name="winSize" Type="size">1618,737</e>
             <e Name="winType" Type="str">Graphics</e>
          </e>
       </e>
    </Settings>
    <Settings Type="str">
       <e Name="LastVersionCheckDate" Type="str">20151010</e>
-      <e Name="OutputLocation" Type="str"/>
+      <e Name="OutputLocation" Type="str">C:\Users\Brett\CC3DWorkspace</e>
       <e Name="ProjectLocation" Type="str"/>
       <e Name="RecentFile" Type="str">C:\Dev\CS6600\Project\Test\Test.cc3d</e>
       <e Name="ScalarIsoValues" Type="str"/>
@@ -90,7 +108,7 @@
       <e Name="CellGlyphsOn" Type="bool">False</e>
       <e Name="CellsOn" Type="bool">True</e>
       <e Name="ClosePlayerAfterSimulationDone" Type="bool">False</e>
-      <e Name="ClusterBordersOn" Type="bool">False</e>
+      <e Name="ClusterBordersOn" Type="bool">True</e>
       <e Name="ConcentrationLimitsOn" Type="bool">True</e>
       <e Name="ContoursOn" Type="bool">False</e>
       <e Name="DisplayConsole" Type="bool">True</e>
@@ -100,7 +118,7 @@
       <e Name="FPPLinksOn" Type="bool">False</e>
       <e Name="FixedArrowColorOn" Type="bool">False</e>
       <e Name="FloatingWindows" Type="bool">False</e>
-      <e Name="ImageOutputOn" Type="bool">False</e>
+      <e Name="ImageOutputOn" Type="bool">True</e>
       <e Name="LatticeOutputOn" Type="bool">False</e>
       <e Name="LegendEnable" Type="bool">True</e>
       <e Name="MaxRangeFixed" Type="bool">True</e>
