@@ -14,11 +14,11 @@ import random
 random.seed()
 from PIL import Image
 
-#path = "C:/Dev/CS6600/Project/Test/Output/"
-path = "C:/Users/Brett/CC3DWorkspace"
+path = "C:/Dev/CS6600/Project/Test/Output/"
+#path = "C:/Users/Brett/CC3DWorkspace"
 simulationSize = 100
-numCellTypes = 1#random.randint(1, 3)
-ncells = 100#random.randint(100,200)
+numCellTypes = random.randint(1, 3)
+ncells = random.randint(100,200)
 
 def configureSimulation():
   import CompuCellSetup
@@ -30,6 +30,8 @@ def configureSimulation():
   PottsElmnt.ElementCC3D("Steps",{},"1010")
   PottsElmnt.ElementCC3D("Temperature",{},"10.0")
   PottsElmnt.ElementCC3D("NeighborOrder",{},"2")
+  SettingsPlugin=CompuCell3DElmnt.ElementCC3D("Plugin",{"Name":"PlayerSettings"})
+  SettingsPlugin.ElementCC3D("VisualControl",{"ScreenshotFrequency":"100"})
   PluginElmnt=CompuCell3DElmnt.ElementCC3D("Plugin",{"Name":"CellType"})
   PluginElmnt.ElementCC3D("CellType",{"TypeId":"0","TypeName":"Medium"})
   PluginElmnt.ElementCC3D("CellType",{"TypeId":"9","TypeName":"Wall","Freeze":""})
@@ -43,7 +45,7 @@ def configureSimulation():
     
   # Define volume for cell types
   for cell in range(1, numCellTypes + 1):
-      width = 4#random.randint(2, 5)
+      width = random.randint(2, 5)
       PluginElmnt_1.ElementCC3D("VolumeEnergyParameters",{"CellType":str(cell),"LambdaVolume": str(random.uniform(1.0, 2.0)),"TargetVolume": str(width * width)})
     
   PluginElmnt_2=CompuCell3DElmnt.ElementCC3D("Plugin",{"Name":"Surface"})
@@ -130,33 +132,33 @@ def getNcd(file1, size1, file2, size2):
   return ncd
 
 def setComplexity(files):
-  sumSize = sum([pair[1] for pair in files])
+  #sumSize = sum([pair[1] for pair in files])
   #print(sumSize)
   sumFiles = 0
-  for file1, size1 in files:
+  for file1 in files:
+    size1 = os.path.getsize(file1)
     sumNcd = 0
-    for file2, size2 in files:
+    for file2 in files:
+      size2 = os.path.getsize(file2)
       if file1 != file2:
         ncd = getNcd(file1, size1, file2, size2)
         sumNcd += (ncd * (1 - ncd))
     sumFiles += (size1 * sumNcd)
-  print(sumNcd)
   return (1 / (len(files) * (len(files) - 1))) * sumFiles
 
-def getSize():
+def getFiles():
   all_subdirs = [os.path.join(path, d) for d in os.listdir(path) if os.path.isdir(os.path.join(path, d))]
   latest_subdir = max(all_subdirs, key=os.path.getmtime)
-  file = max(glob.glob(latest_subdir + "/*.png"), key=os.path.getmtime)
-  size = os.path.getsize(file)
-  return file, size
+  files = glob.glob(latest_subdir + "/*.png")
+  return files
 
 def run():
   subprocess.call("C:/CompuCell3D/compucell3d.bat -i C:\\Dev\\CS6600\\Project\\Test\\Test.cc3d --exitWhenDone")
-  return getSize()
+  return getFiles()
 
 configureSimulation()
-files = []
-for _ in range(2):
-  files.append(run())
+files = run()
 #file2, size2 = run()
-print(setComplexity(files))
+#print(setComplexity(files))
+file = max(files, key=os.path.getmtime)
+print(os.path.getsize(file))

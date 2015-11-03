@@ -5,25 +5,35 @@
       <Temperature>10.0</Temperature>
       <NeighborOrder>2</NeighborOrder>
    </Potts>
+   <Plugin Name="PlayerSettings">
+      <VisualControl ScreenshotFrequency="100"/>
+   </Plugin>
    <Plugin Name="CellType">
       <CellType TypeId="0" TypeName="Medium"/>
       <CellType Freeze="" TypeId="9" TypeName="Wall"/>
       <CellType TypeId="1" TypeName="1"/>
+      <CellType TypeId="2" TypeName="2"/>
    </Plugin>
    <Plugin Name="Volume">
-      <VolumeEnergyParameters CellType="1" LambdaVolume="1.54182842712" TargetVolume="16"/>
+      <VolumeEnergyParameters CellType="1" LambdaVolume="1.88250170424" TargetVolume="4"/>
+      <VolumeEnergyParameters CellType="2" LambdaVolume="1.85017024504" TargetVolume="25"/>
    </Plugin>
    <Plugin Name="Surface">
-      <SurfaceEnergyParameters CellType="1" LambdaSurface="1.50865520008" TargetSurface="25"/>
+      <SurfaceEnergyParameters CellType="1" LambdaSurface="1.68873710016" TargetSurface="16"/>
+      <SurfaceEnergyParameters CellType="2" LambdaSurface="1.66458923211" TargetSurface="16"/>
    </Plugin>
    <Plugin Name="CenterOfMass"/>
    <Plugin Name="Contact">
       <Energy Type1="Medium" Type2="Medium">0.0</Energy>
       <Energy Type1="Wall" Type2="Wall">0.0</Energy>
       <Energy Type1="Wall" Type2="Medium">0.0</Energy>
-      <Energy Type1="Medium" Type2="1">1.79939707009</Energy>
+      <Energy Type1="Medium" Type2="1">12.2198553696</Energy>
       <Energy Type1="Wall" Type2="1">50.0</Energy>
-      <Energy Type1="1" Type2="1">6.90729807136</Energy>
+      <Energy Type1="1" Type2="1">15.1793273481</Energy>
+      <Energy Type1="1" Type2="2">2.02080100997</Energy>
+      <Energy Type1="Medium" Type2="2">1.52477304101</Energy>
+      <Energy Type1="Wall" Type2="2">50.0</Energy>
+      <Energy Type1="2" Type2="2">7.84191670236</Energy>
       <NeighborOrder>2</NeighborOrder>
    </Plugin>
    <Plugin Name="Chemotaxis">
@@ -54,7 +64,7 @@
       <offset x="10" y="10" z="0"/>
       <growthsteps>10</growthsteps>
       <order>2</order>
-      <types>1</types>
-      <ncells>100</ncells>
+      <types>1,2</types>
+      <ncells>142</ncells>
    </Steppable>
 </CompuCell3D>

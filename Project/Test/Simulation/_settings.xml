@@ -18,7 +18,7 @@
       <e Name="NumberOfLegendBoxes" Type="int">6</e>
       <e Name="NumberOfRecentSimulations" Type="int">3</e>
       <e Name="Projection" Type="int">0</e>
-      <e Name="SaveImageFrequency" Type="int">1000</e>
+      <e Name="SaveImageFrequency" Type="int">100</e>
       <e Name="SaveLatticeFrequency" Type="int">100</e>
       <e Name="ScreenUpdateFrequency" Type="int">10</e>
       <e Name="Screenshot_X" Type="int">600</e>
@@ -94,7 +94,7 @@
    </Settings>
    <Settings Type="str">
       <e Name="LastVersionCheckDate" Type="str">20151010</e>
-      <e Name="OutputLocation" Type="str">C:\Users\Brett\CC3DWorkspace</e>
+      <e Name="OutputLocation" Type="str">C:\Dev\CS6600\Project\Test\Output</e>
       <e Name="ProjectLocation" Type="str"/>
       <e Name="RecentFile" Type="str">C:\Dev\CS6600\Project\Test\Test.cc3d</e>
       <e Name="ScalarIsoValues" Type="str"/>
