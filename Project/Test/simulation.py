@@ -16,7 +16,6 @@ from PIL import Image
 path = "C:/Users/Brett/CC3DWorkspace"
 simulationSize = 100
 
-
 def configureSimulation():
   import random
   random.seed()
@@ -33,6 +32,7 @@ def configureSimulation():
   PottsElmnt.ElementCC3D("NeighborOrder",{},"2")
   PluginElmnt=CompuCell3DElmnt.ElementCC3D("Plugin",{"Name":"CellType"})
   PluginElmnt.ElementCC3D("CellType",{"TypeId":"0","TypeName":"Medium"})
+  PluginElmnt.ElementCC3D("CellType",{"TypeId":"9","TypeName":"Wall","Freeze":""})
     
   # Define cell types
   # TODO use variable ratio of cell types
@@ -55,12 +55,15 @@ def configureSimulation():
   CompuCell3DElmnt.ElementCC3D("Plugin",{"Name":"CenterOfMass"})
   PluginElmnt_3=CompuCell3DElmnt.ElementCC3D("Plugin",{"Name":"Contact"})
   PluginElmnt_3.ElementCC3D("Energy",{"Type1":"Medium","Type2":"Medium"},"0.0")
+  PluginElmnt_3.ElementCC3D("Energy",{"Type1":"Wall","Type2":"Wall"},"0.0")
+  PluginElmnt_3.ElementCC3D("Energy",{"Type1":"Wall","Type2":"Medium"},"0.0")
     
   # Define contact for cell types
   for cell in range(1, numCellTypes + 1):
-      PluginElmnt_3.ElementCC3D("Energy",{"Type1":"Medium","Type2":str(cell)},"16.0")
+      PluginElmnt_3.ElementCC3D("Energy",{"Type1":"Medium","Type2":str(cell)},str(random.uniform(0, 16.0)))
+      PluginElmnt_3.ElementCC3D("Energy",{"Type1":"Wall","Type2":str(cell)},"50.0")
       for cell2 in range(cell, numCellTypes + 1):
-          PluginElmnt_3.ElementCC3D("Energy",{"Type1":str(cell),"Type2":str(cell2)},str(random.uniform(-10, 14.0)))
+          PluginElmnt_3.ElementCC3D("Energy",{"Type1":str(cell),"Type2":str(cell2)},str(random.uniform(0, 16.0)))
   PluginElmnt_3.ElementCC3D("NeighborOrder",{},"2")
     
   PluginElmnt_4=CompuCell3DElmnt.ElementCC3D("Plugin",{"Name":"Chemotaxis"})
@@ -73,7 +76,7 @@ def configureSimulation():
       for cell in range(1, numCellTypes + 1):
           for cell2 in range(cell, numCellTypes + 1):
               if random.choice([True, False]):
-                  ChemicalFieldElmnt.ElementCC3D("ChemotaxisByType",{"ChemotactTowards":str(cell),"Lambda":str(random.uniform(2.0, 300.0)),"Type":str(cell2)})
+                  ChemicalFieldElmnt.ElementCC3D("ChemotaxisByType",{"ChemotactTowards":str(cell),"Lambda":str(random.uniform(2.0, 200000.0)),"Type":str(cell2)})
     
   # Define chemical field?
   SteppableElmnt=CompuCell3DElmnt.ElementCC3D("Steppable",{"Type":"FlexibleDiffusionSolverFE"})
@@ -82,6 +85,8 @@ def configureSimulation():
   DiffusionDataElmnt.ElementCC3D("FieldName",{},"FDS")
   DiffusionDataElmnt.ElementCC3D("DiffusionConstant",{},"0.1")
   DiffusionDataElmnt.ElementCC3D("DecayConstant",{},"1e-05")
+  DiffusionDataElmnt.ElementCC3D("DiffusionCoefficient",{"CellType":"Wall"},"0")
+  DiffusionDataElmnt.ElementCC3D("DoNotDiffuseTo",{"CellType":"Wall"},"Wall")
   BoundaryConditionsElmnt=DiffusionFieldElmnt.ElementCC3D("BoundaryConditions")
   PlaneElmnt=BoundaryConditionsElmnt.ElementCC3D("Plane",{"Axis":"X"})
   PlaneElmnt.ElementCC3D("ConstantValue",{"PlanePosition":"Min","Value":"10.0"})
@@ -93,8 +98,8 @@ def configureSimulation():
   # Define initialization parameters
   SteppableElmnt_1=CompuCell3DElmnt.ElementCC3D("Steppable",{"Type":"UniformInitializer"})
   RegionElmnt=SteppableElmnt_1.ElementCC3D("Region")
-  RegionElmnt.ElementCC3D("BoxMin",{"x":"0","y":"0","z":"0"})
-  RegionElmnt.ElementCC3D("BoxMax",{"x":str(simulationSize),"y":str(simulationSize),"z":"1"})
+  RegionElmnt.ElementCC3D("BoxMin",{"x":"10","y":"10","z":"0"})
+  RegionElmnt.ElementCC3D("BoxMax",{"x":str(simulationSize - 10),"y":str(simulationSize - 10),"z":"1"})
   RegionElmnt.ElementCC3D("Gap",{},"5")
   RegionElmnt.ElementCC3D("Width",{},str(width))
   RegionElmnt.ElementCC3D("Types",{},",".join(str(i) for i in range(1, numCellTypes + 1)))
@@ -133,8 +138,8 @@ def setComplexity(files):
 def getSize():
   all_subdirs = [os.path.join(path, d) for d in os.listdir(path) if os.path.isdir(os.path.join(path, d))]
   latest_subdir = max(all_subdirs, key=os.path.getmtime)
-  file = glob.glob(latest_subdir + "/*.png")[0]
-  size = os.path.getsize(glob.glob(latest_subdir + "/*.png")[0])
+  file = max(glob.glob(latest_subdir + "/*.png"), key=os.path.getmtime)
+  size = os.path.getsize(file)
   return file, size
 
 def run():

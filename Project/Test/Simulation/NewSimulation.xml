@@ -7,29 +7,47 @@
    </Potts>
    <Plugin Name="CellType">
       <CellType TypeId="0" TypeName="Medium"/>
+      <CellType Freeze="" TypeId="9" TypeName="Wall"/>
       <CellType TypeId="1" TypeName="1"/>
       <CellType TypeId="2" TypeName="2"/>
+      <CellType TypeId="3" TypeName="3"/>
    </Plugin>
    <Plugin Name="Volume">
-      <VolumeEnergyParameters CellType="1" LambdaVolume="1.62362504056" TargetVolume="25"/>
-      <VolumeEnergyParameters CellType="2" LambdaVolume="1.90842209691" TargetVolume="25"/>
+      <VolumeEnergyParameters CellType="1" LambdaVolume="1.17390679053" TargetVolume="25"/>
+      <VolumeEnergyParameters CellType="2" LambdaVolume="1.76093740894" TargetVolume="25"/>
+      <VolumeEnergyParameters CellType="3" LambdaVolume="1.21150237469" TargetVolume="25"/>
    </Plugin>
    <Plugin Name="Surface">
-      <SurfaceEnergyParameters CellType="1" LambdaSurface="1.92348409232" TargetSurface="23"/>
-      <SurfaceEnergyParameters CellType="2" LambdaSurface="1.64323454359" TargetSurface="23"/>
+      <SurfaceEnergyParameters CellType="1" LambdaSurface="1.97573293376" TargetSurface="18"/>
+      <SurfaceEnergyParameters CellType="2" LambdaSurface="1.14463597245" TargetSurface="12"/>
+      <SurfaceEnergyParameters CellType="3" LambdaSurface="1.9719243981" TargetSurface="13"/>
    </Plugin>
    <Plugin Name="CenterOfMass"/>
    <Plugin Name="Contact">
       <Energy Type1="Medium" Type2="Medium">0.0</Energy>
-      <Energy Type1="Medium" Type2="1">16.0</Energy>
-      <Energy Type1="1" Type2="1">1.15598390693</Energy>
-      <Energy Type1="1" Type2="2">5.99365744024</Energy>
-      <Energy Type1="Medium" Type2="2">16.0</Energy>
-      <Energy Type1="2" Type2="2">12.0587539261</Energy>
+      <Energy Type1="Wall" Type2="Wall">0.0</Energy>
+      <Energy Type1="Wall" Type2="Medium">0.0</Energy>
+      <Energy Type1="Medium" Type2="1">6.19336037974</Energy>
+      <Energy Type1="Wall" Type2="1">50.0</Energy>
+      <Energy Type1="1" Type2="1">10.929354221</Energy>
+      <Energy Type1="1" Type2="2">3.85428320027</Energy>
+      <Energy Type1="1" Type2="3">0.956955774471</Energy>
+      <Energy Type1="Medium" Type2="2">12.7429048694</Energy>
+      <Energy Type1="Wall" Type2="2">50.0</Energy>
+      <Energy Type1="2" Type2="2">2.3488940898</Energy>
+      <Energy Type1="2" Type2="3">15.4357070852</Energy>
+      <Energy Type1="Medium" Type2="3">0.348257234822</Energy>
+      <Energy Type1="Wall" Type2="3">50.0</Energy>
+      <Energy Type1="3" Type2="3">8.89252073246</Energy>
       <NeighborOrder>2</NeighborOrder>
    </Plugin>
    <Plugin Name="Chemotaxis">
-      <ChemicalField Name="FDS" Source="FlexibleDiffusionSolverFE"/>
+      <ChemicalField Name="FDS" Source="FlexibleDiffusionSolverFE">
+         <ChemotaxisByType ChemotactTowards="1" Lambda="1341.51959588" Type="1"/>
+         <ChemotaxisByType ChemotactTowards="1" Lambda="110401.78556" Type="2"/>
+         <ChemotaxisByType ChemotactTowards="2" Lambda="90667.634323" Type="2"/>
+         <ChemotaxisByType ChemotactTowards="3" Lambda="174880.249002" Type="3"/>
+      </ChemicalField>
    </Plugin>
    <Steppable Type="FlexibleDiffusionSolverFE">
       <DiffusionField Name="FDS">
@@ -37,6 +55,8 @@
             <FieldName>FDS</FieldName>
             <DiffusionConstant>0.1</DiffusionConstant>
             <DecayConstant>1e-05</DecayConstant>
+            <DiffusionCoefficient CellType="Wall">0</DiffusionCoefficient>
+            <DoNotDiffuseTo CellType="Wall">Wall</DoNotDiffuseTo>
          </DiffusionData>
          <BoundaryConditions>
             <Plane Axis="X">
@@ -52,11 +72,11 @@
    </Steppable>
    <Steppable Type="UniformInitializer">
       <Region>
-         <BoxMin x="0" y="0" z="0"/>
-         <BoxMax x="100" y="100" z="1"/>
+         <BoxMin x="10" y="10" z="0"/>
+         <BoxMax x="90" y="90" z="1"/>
          <Gap>5</Gap>
          <Width>5</Width>
-         <Types>1,2</Types>
+         <Types>1,2,3</Types>
       </Region>
    </Steppable>
 </CompuCell3D>

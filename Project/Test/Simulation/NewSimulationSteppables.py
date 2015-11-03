@@ -12,4 +12,4 @@ class NewSimulationSteppable(SteppableBasePy):
 
     def start(self):
         # any code in the start function runs before MCS=0
-        pass
+        self.buildWall(self.WALL)
