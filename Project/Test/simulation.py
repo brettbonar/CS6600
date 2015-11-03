@@ -42,8 +42,8 @@ def configureSimulation():
   PluginElmnt_1=CompuCell3DElmnt.ElementCC3D("Plugin",{"Name":"Volume"})
     
   # Define volume for cell types
-  width = 5
   for cell in range(1, numCellTypes + 1):
+      width = random.randint(2, 5)
       PluginElmnt_1.ElementCC3D("VolumeEnergyParameters",{"CellType":str(cell),"LambdaVolume": str(random.uniform(1.0, 2.0)),"TargetVolume": str(width * width)})
     
   PluginElmnt_2=CompuCell3DElmnt.ElementCC3D("Plugin",{"Name":"Surface"})
@@ -96,13 +96,20 @@ def configureSimulation():
   PlaneElmnt_1.ElementCC3D("ConstantDerivative",{"PlanePosition":"Max","Value":"5.0"})
     
   # Define initialization parameters
-  SteppableElmnt_1=CompuCell3DElmnt.ElementCC3D("Steppable",{"Type":"UniformInitializer"})
-  RegionElmnt=SteppableElmnt_1.ElementCC3D("Region")
-  RegionElmnt.ElementCC3D("BoxMin",{"x":"10","y":"10","z":"0"})
-  RegionElmnt.ElementCC3D("BoxMax",{"x":str(simulationSize - 10),"y":str(simulationSize - 10),"z":"1"})
-  RegionElmnt.ElementCC3D("Gap",{},"5")
-  RegionElmnt.ElementCC3D("Width",{},str(width))
-  RegionElmnt.ElementCC3D("Types",{},",".join(str(i) for i in range(1, numCellTypes + 1)))
+  SteppableElmnt_1=CompuCell3DElmnt.ElementCC3D("Steppable",{"Type":"RandomFieldInitializer"})
+  SteppableElmnt_1.ElementCC3D("offset",{"x":"10","y":"10","z":"0"})
+  SteppableElmnt_1.ElementCC3D("growthsteps",{},"10")
+  SteppableElmnt_1.ElementCC3D("order",{},"2")
+  SteppableElmnt_1.ElementCC3D("types",{},",".join(str(i) for i in range(1, numCellTypes + 1)))
+  ncells = random.randint(100,200)
+  SteppableElmnt_1.ElementCC3D("ncells",{},str(ncells))
+  #SteppableElmnt_1=CompuCell3DElmnt.ElementCC3D("Steppable",{"Type":"UniformInitializer"})
+  #RegionElmnt=SteppableElmnt_1.ElementCC3D("Region")
+  #RegionElmnt.ElementCC3D("BoxMin",{"x":"10","y":"10","z":"0"})
+  #RegionElmnt.ElementCC3D("BoxMax",{"x":str(simulationSize - 10),"y":str(simulationSize - 10),"z":"1"})
+  #RegionElmnt.ElementCC3D("Gap",{},"5")
+  #RegionElmnt.ElementCC3D("Width",{},str(width))
+  #RegionElmnt.ElementCC3D("Types",{},",".join(str(i) for i in range(1, numCellTypes + 1)))
  
   xmlFile = open("C:/Dev/CS6600/Project/Test/Simulation/NewSimulation.xml", "w+")
   xmlFile.write(CompuCell3DElmnt.getCC3DXMLElementString())
@@ -125,14 +132,14 @@ def getNcd(file1, size1, file2, size2):
 
 def setComplexity(files):
   sumSize = sum([pair[1] for pair in files])
-  print(sumSize)
+  #print(sumSize)
   sumNcd = 0
   for file1, size1 in files:
     for file2, size2 in files:
       if file1 != file2:
         ncd = getNcd(file1, size1, file2, size2)
         sumNcd += (ncd * (1 - ncd))
-  print(sumNcd)
+  #print(sumNcd)
   return (1 / (len(files) * (len(files) - 1))) * sumSize * sumNcd
 
 def getSize():
@@ -147,7 +154,8 @@ def run():
   return getSize()
 
 configureSimulation()
-file1, size1 = run()
-print(size1)
+files = []
+for _ in range(2):
+  files.append(run())
 #file2, size2 = run()
-#print(setComplexity([(file1, size1), (file2, size2)]))
+print(setComplexity(files))

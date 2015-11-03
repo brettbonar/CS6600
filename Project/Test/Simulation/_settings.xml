@@ -77,9 +77,9 @@
       </e>
       <e Name="WindowsLayout" Type="dict">
          <e Name="0" Type="dict">
-            <e Name="cameraClippingRange" Type="floatlist">490.382263984,502.765654489</e>
+            <e Name="cameraClippingRange" Type="floatlist">334.937684574,343.395706912</e>
             <e Name="cameraFocalPoint" Type="floatlist">160.078616717,20.0468600967,0.0</e>
-            <e Name="cameraPosition" Type="floatlist">160.078616717,20.0468600967,495.335620186</e>
+            <e Name="cameraPosition" Type="floatlist">160.078616717,20.0468600967,338.320893509</e>
             <e Name="cameraViewUp" Type="floatlist">0.0,1.0,0.0</e>
             <e Name="is3D" Type="bool">False</e>
             <e Name="planeName" Type="str">XY</e>
