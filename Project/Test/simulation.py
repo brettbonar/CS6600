@@ -10,19 +10,19 @@ sys.path.append(environ["SWIG_LIB_INSTALL_DIR"])
 import subprocess
 import os
 import glob
+import random
+random.seed()
 from PIL import Image
 
 #path = "C:/Dev/CS6600/Project/Test/Output/"
 path = "C:/Users/Brett/CC3DWorkspace"
 simulationSize = 100
+numCellTypes = 1#random.randint(1, 3)
+ncells = 100#random.randint(100,200)
 
 def configureSimulation():
-  import random
-  random.seed()
   import CompuCellSetup
   from XMLUtils import ElementCC3D
-    
-  numCellTypes = random.randint(1, 3)
     
   CompuCell3DElmnt=ElementCC3D("CompuCell3D",{"Revision":"20150808","Version":"3.7.4"})
   PottsElmnt=CompuCell3DElmnt.ElementCC3D("Potts")
@@ -43,7 +43,7 @@ def configureSimulation():
     
   # Define volume for cell types
   for cell in range(1, numCellTypes + 1):
-      width = random.randint(2, 5)
+      width = 4#random.randint(2, 5)
       PluginElmnt_1.ElementCC3D("VolumeEnergyParameters",{"CellType":str(cell),"LambdaVolume": str(random.uniform(1.0, 2.0)),"TargetVolume": str(width * width)})
     
   PluginElmnt_2=CompuCell3DElmnt.ElementCC3D("Plugin",{"Name":"Surface"})
@@ -101,7 +101,6 @@ def configureSimulation():
   SteppableElmnt_1.ElementCC3D("growthsteps",{},"10")
   SteppableElmnt_1.ElementCC3D("order",{},"2")
   SteppableElmnt_1.ElementCC3D("types",{},",".join(str(i) for i in range(1, numCellTypes + 1)))
-  ncells = random.randint(100,200)
   SteppableElmnt_1.ElementCC3D("ncells",{},str(ncells))
   #SteppableElmnt_1=CompuCell3DElmnt.ElementCC3D("Steppable",{"Type":"UniformInitializer"})
   #RegionElmnt=SteppableElmnt_1.ElementCC3D("Region")
@@ -133,14 +132,16 @@ def getNcd(file1, size1, file2, size2):
 def setComplexity(files):
   sumSize = sum([pair[1] for pair in files])
   #print(sumSize)
-  sumNcd = 0
+  sumFiles = 0
   for file1, size1 in files:
+    sumNcd = 0
     for file2, size2 in files:
       if file1 != file2:
         ncd = getNcd(file1, size1, file2, size2)
         sumNcd += (ncd * (1 - ncd))
-  #print(sumNcd)
-  return (1 / (len(files) * (len(files) - 1))) * sumSize * sumNcd
+    sumFiles += (size1 * sumNcd)
+  print(sumNcd)
+  return (1 / (len(files) * (len(files) - 1))) * sumFiles
 
 def getSize():
   all_subdirs = [os.path.join(path, d) for d in os.listdir(path) if os.path.isdir(os.path.join(path, d))]

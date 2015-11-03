@@ -9,28 +9,21 @@
       <CellType TypeId="0" TypeName="Medium"/>
       <CellType Freeze="" TypeId="9" TypeName="Wall"/>
       <CellType TypeId="1" TypeName="1"/>
-      <CellType TypeId="2" TypeName="2"/>
    </Plugin>
    <Plugin Name="Volume">
-      <VolumeEnergyParameters CellType="1" LambdaVolume="1.37009886025" TargetVolume="25"/>
-      <VolumeEnergyParameters CellType="2" LambdaVolume="1.96466800633" TargetVolume="4"/>
+      <VolumeEnergyParameters CellType="1" LambdaVolume="1.54182842712" TargetVolume="16"/>
    </Plugin>
    <Plugin Name="Surface">
-      <SurfaceEnergyParameters CellType="1" LambdaSurface="1.19466081439" TargetSurface="14"/>
-      <SurfaceEnergyParameters CellType="2" LambdaSurface="1.14967070777" TargetSurface="23"/>
+      <SurfaceEnergyParameters CellType="1" LambdaSurface="1.50865520008" TargetSurface="25"/>
    </Plugin>
    <Plugin Name="CenterOfMass"/>
    <Plugin Name="Contact">
       <Energy Type1="Medium" Type2="Medium">0.0</Energy>
       <Energy Type1="Wall" Type2="Wall">0.0</Energy>
       <Energy Type1="Wall" Type2="Medium">0.0</Energy>
-      <Energy Type1="Medium" Type2="1">13.3438506561</Energy>
+      <Energy Type1="Medium" Type2="1">1.79939707009</Energy>
       <Energy Type1="Wall" Type2="1">50.0</Energy>
-      <Energy Type1="1" Type2="1">8.96426549771</Energy>
-      <Energy Type1="1" Type2="2">11.9380987744</Energy>
-      <Energy Type1="Medium" Type2="2">0.0540929171102</Energy>
-      <Energy Type1="Wall" Type2="2">50.0</Energy>
-      <Energy Type1="2" Type2="2">1.20998604592</Energy>
+      <Energy Type1="1" Type2="1">6.90729807136</Energy>
       <NeighborOrder>2</NeighborOrder>
    </Plugin>
    <Plugin Name="Chemotaxis">
@@ -61,7 +54,7 @@
       <offset x="10" y="10" z="0"/>
       <growthsteps>10</growthsteps>
       <order>2</order>
-      <types>1,2</types>
-      <ncells>182</ncells>
+      <types>1</types>
+      <ncells>100</ncells>
    </Steppable>
 </CompuCell3D>
