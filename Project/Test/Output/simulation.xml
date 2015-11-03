@@ -1,0 +1,47 @@
+<CompuCell3D Revision="20150808" Version="3.7.4">
+   <Potts>
+      <Dimensions x="100" y="100" z="1"/>
+      <Steps>1010</Steps>
+      <Temperature>10.0</Temperature>
+      <NeighborOrder>2</NeighborOrder>
+   </Potts>
+   <Plugin Name="CellType">
+      <CellType TypeId="0" TypeName="Medium"/>
+      <CellType TypeId="1" TypeName="1"/>
+      <CellType TypeId="2" TypeName="2"/>
+      <CellType TypeId="3" TypeName="3"/>
+   </Plugin>
+   <Plugin Name="Volume">
+      <VolumeEnergyParameters CellType="1" LambdaVolume="1.9554244091" TargetVolume="25"/>
+      <VolumeEnergyParameters CellType="2" LambdaVolume="1.30185001129" TargetVolume="25"/>
+      <VolumeEnergyParameters CellType="3" LambdaVolume="1.40975480263" TargetVolume="25"/>
+   </Plugin>
+   <Plugin Name="Surface">
+      <SurfaceEnergyParameters CellType="1" LambdaSurface="1.11363984479" TargetSurface="22"/>
+      <SurfaceEnergyParameters CellType="2" LambdaSurface="1.1079812962" TargetSurface="24"/>
+      <SurfaceEnergyParameters CellType="3" LambdaSurface="1.18415284464" TargetSurface="8"/>
+   </Plugin>
+   <Plugin Name="CenterOfMass"/>
+   <Plugin Name="Contact">
+      <Energy Type1="Medium" Type2="Medium">0.0</Energy>
+      <Energy Type1="Medium" Type2="1">16.0</Energy>
+      <Energy Type1="1" Type2="1">4.92812102058</Energy>
+      <Energy Type1="1" Type2="2">10.1202838907</Energy>
+      <Energy Type1="1" Type2="3">13.9874522592</Energy>
+      <Energy Type1="Medium" Type2="2">16.0</Energy>
+      <Energy Type1="2" Type2="2">6.29683311464</Energy>
+      <Energy Type1="2" Type2="3">7.62988840698</Energy>
+      <Energy Type1="Medium" Type2="3">16.0</Energy>
+      <Energy Type1="3" Type2="3">12.2302988228</Energy>
+      <NeighborOrder>2</NeighborOrder>
+   </Plugin>
+   <Steppable Type="UniformInitializer">
+      <Region>
+         <BoxMin x="20" y="20" z="0"/>
+         <BoxMax x="80" y="80" z="1"/>
+         <Gap>5</Gap>
+         <Width>5</Width>
+         <Types>1,2,3</Types>
+      </Region>
+   </Steppable>
+</CompuCell3D>

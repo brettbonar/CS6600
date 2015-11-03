@@ -81,7 +81,6 @@ def configureSimulation(sim):
     RegionElmnt.ElementCC3D("Gap",{},"5")
     RegionElmnt.ElementCC3D("Width",{},str(width))
     RegionElmnt.ElementCC3D("Types",{},",".join(str(i) for i in range(1, numCellTypes + 1)))
-
-    CompuCellSetup.setSimulationXMLDescription(CompuCell3DElmnt)  
+ 
     return CompuCell3DElmnt
     
