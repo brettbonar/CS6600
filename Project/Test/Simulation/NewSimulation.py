@@ -1,4 +1,4 @@
-import sys
+﻿import sys
 from os import environ
 from os import getcwd
 import string
@@ -6,6 +6,7 @@ import string
 sys.path.append(environ["PYTHON_MODULE_PATH"])
 
 import CompuCellSetup
+import RestartManager
 
 sim,simthread = CompuCellSetup.getCoreSimulationObjects()
             
@@ -18,7 +19,30 @@ CompuCellSetup.initializeSimulationObjects(sim,simthread)
 steppableRegistry=CompuCellSetup.getSteppableRegistry()
         
 from NewSimulationSteppables import NewSimulationSteppable
-steppableInstance=NewSimulationSteppable(sim,_frequency=600)
+steppableInstance=NewSimulationSteppable(sim,_frequency=100)
 steppableRegistry.registerSteppable(steppableInstance)
-        
+
 CompuCellSetup.mainLoop(sim,simthread,steppableRegistry)
+sim.setRestartEnabled(True)
+
+#sim.finish()
+#sim.cleanAfterSimulation()
+#sim.unloadModules()
+#sim.start()
+
+#sim,simthread = CompuCellSetup.getCoreSimulationObjects()
+#sim.setRestartEnabled(True)
+            
+## add extra attributes here
+            
+#CompuCellSetup.initializeSimulationObjects(sim,simthread)
+## Definitions of additional Python-managed fields go here
+
+## Add Python steppables here
+#steppableRegistry=CompuCellSetup.getSteppableRegistry()
+        
+#from NewSimulationSteppables import NewSimulationSteppable
+#steppableInstance=NewSimulationSteppable(sim,_frequency=100)
+#steppableRegistry.registerSteppable(steppableInstance)
+        
+#CompuCellSetup.mainLoop(sim,simthread,steppableRegistry)
