@@ -1,0 +1,67 @@
+<CompuCell3D Revision="20150808" Version="3.7.4">
+   <Potts>
+      <Dimensions x="150" y="150" z="1"/>
+      <Steps>10010</Steps>
+      <Temperature>10.0</Temperature>
+      <NeighborOrder>2</NeighborOrder>
+      <RandomSeed>1459212</RandomSeed>
+   </Potts>
+   <Plugin Name="PlayerSettings">
+      <VisualControl ScreenshotFrequency="1000"/>
+   </Plugin>
+   <Plugin Name="CellType">
+      <CellType TypeId="0" TypeName="Medium"/>
+      <CellType Freeze="" TypeId="9" TypeName="Wall"/>
+      <CellType TypeId="1" TypeName="1"/>
+      <CellType TypeId="2" TypeName="2"/>
+   </Plugin>
+   <Plugin Name="Volume">
+      <VolumeEnergyParameters CellType="1" LambdaVolume="1.50857710226" TargetVolume="36"/>
+      <VolumeEnergyParameters CellType="2" LambdaVolume="1.04605563988" TargetVolume="16"/>
+   </Plugin>
+   <Plugin Name="Surface">
+      <SurfaceEnergyParameters CellType="1" LambdaSurface="1.00398434392" TargetSurface="18"/>
+      <SurfaceEnergyParameters CellType="2" LambdaSurface="1.0540841361" TargetSurface="17"/>
+   </Plugin>
+   <Plugin Name="CenterOfMass"/>
+   <Plugin Name="Contact">
+      <Energy Type1="Medium" Type2="Medium">0.0</Energy>
+      <Energy Type1="Wall" Type2="Wall">0.0</Energy>
+      <Energy Type1="Wall" Type2="Medium">0.0</Energy>
+      <Energy Type1="Medium" Type2="1">16</Energy>
+      <Energy Type1="Wall" Type2="1">50.0</Energy>
+      <Energy Type1="1" Type2="1">8</Energy>
+      <Energy Type1="1" Type2="2">15</Energy>
+      <Energy Type1="Medium" Type2="2">21.0114029709</Energy>
+      <Energy Type1="Wall" Type2="2">50.0</Energy>
+      <Energy Type1="2" Type2="2">15</Energy>
+      <NeighborOrder>2</NeighborOrder>
+   </Plugin>
+   <Plugin Name="Chemotaxis">
+      <ChemicalField Name="FDS" Source="DiffusionSolverFE">
+         <ChemotaxisByType Lambda="1767871" Type="1"/>
+      </ChemicalField>
+   </Plugin>
+   <Steppable Type="DiffusionSolverFE">
+      <DiffusionField Name="FDS">
+         <DiffusionData>
+            <FieldName>FDS</FieldName>
+            <GlobalDiffusionConstant>0.379123127367</GlobalDiffusionConstant>
+            <GlobalDecayConstant>0.00507056873223</GlobalDecayConstant>
+            <DiffusionCoefficient CellType="Wall">0</DiffusionCoefficient>
+            <DoNotDiffuseTo CellType="Wall">Wall</DoNotDiffuseTo>
+            <SecretionData>
+               <Secretion Type="1">96.0643519965</Secretion>
+               <Secretion Type="2">19.6509419348</Secretion>
+            </SecretionData>
+         </DiffusionData>
+      </DiffusionField>
+   </Steppable>
+   <Steppable Type="RandomFieldInitializer">
+      <offset x="10" y="10" z="0"/>
+      <growthsteps>10</growthsteps>
+      <order>2</order>
+      <types>1,2</types>
+      <ncells>163</ncells>
+   </Steppable>
+</CompuCell3D>

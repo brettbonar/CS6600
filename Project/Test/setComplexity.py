@@ -50,6 +50,9 @@ def getNcd(file1, file2):
   #print(size2)
   #print(newSize)
 
+  print(newSize)
+  print(size1)
+  print(size2)
   ncd = (newSize - min(size1, size2)) / (max(size1, size2))
   if (ncd < lowest):
     lowest = ncd
@@ -57,12 +60,20 @@ def getNcd(file1, file2):
   if (ncd > highest):
     highest = ncd
     shutil.copyfile(path + "/testimage.png", path + "/highest.png")
-  #print(ncd)
+  print(ncd)
   return ncd
+
+getDataCSize(data):
+  compressed = zlib.compress(data, 9)
+  with open(path + "/testC", "wb") as out_file:
+      out_file.write(compressed)
+
+  return os.path.getsize(path + "/testC")
+
 
 def getCSize(file):
   with open(file, "rb") as in_file:
-    compressed = zlib.compress(in_file.read(), 1)
+    compressed = zlib.compress(in_file.read(), 9)
 
   with open(path + "/testC", "wb") as out_file:
       out_file.write(compressed)
@@ -87,14 +98,14 @@ def setComplexity(files):
 def getFiles():
   all_subdirs = [os.path.join(path, d) for d in os.listdir(path) if os.path.isdir(os.path.join(path, d))]
   latest_subdir = max(all_subdirs, key=os.path.getmtime)
-  files = glob.glob(latest_subdir + "/*.png")
+  files = glob.glob(latest_subdir + "/**/*.png")
   return files
 
 path = sys.argv[1]
-files = glob.glob(path + "/*.png")
+files = glob.glob(path + "/**/*.png")
 files.sort(key=os.path.getmtime)
 
-testoutput = open(path + "/testoutput.txt", "r+b")
+testoutput = open(path + "/testoutput.txt", "w+b")
 #numSets = len(files) - 4
 #for i in range(0, numSets):
 #  filesSet = files[i:i+4]
@@ -102,11 +113,11 @@ testoutput = open(path + "/testoutput.txt", "r+b")
 #    filesSet = files[-4:]
 #  print(setComplexity(filesSet), file=testoutput)
 
-#print(setComplexity(files[-4:]))
+print(setComplexity(files))
 
-numSets = len(files) - 2
-for i in range(0, numSets):
-  print(getNcd(files[i], files[i+10]), file=testoutput)
+#numSets = len(files) - 2
+#for i in range(0, numSets):
+#  print(getNcd(files[i], files[i+1]), file=testoutput)
 
 #for file in files:
 #  print(1 / os.path.getsize(file), file=testoutput)

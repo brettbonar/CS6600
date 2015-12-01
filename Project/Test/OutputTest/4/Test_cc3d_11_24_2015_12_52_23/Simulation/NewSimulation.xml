@@ -1,0 +1,47 @@
+<CompuCell3D Revision="20150808" Version="3.7.4">
+   <Potts>
+      <Dimensions x="150" y="150" z="1"/>
+      <Steps>1010</Steps>
+      <Temperature>10.0</Temperature>
+      <NeighborOrder>2</NeighborOrder>
+      <RandomSeed>8863792</RandomSeed>
+   </Potts>
+   <Plugin Name="PlayerSettings">
+      <VisualControl ScreenshotFrequency="1000"/>
+   </Plugin>
+   <Plugin Name="CellType">
+      <CellType TypeId="0" TypeName="Medium"/>
+      <CellType Freeze="" TypeId="9" TypeName="Wall"/>
+      <CellType TypeId="1" TypeName="1"/>
+      <CellType TypeId="2" TypeName="2"/>
+   </Plugin>
+   <Plugin Name="Volume">
+      <VolumeEnergyParameters CellType="1" LambdaVolume="1.55647061197" TargetVolume="49"/>
+      <VolumeEnergyParameters CellType="2" LambdaVolume="1.23824096311" TargetVolume="36"/>
+   </Plugin>
+   <Plugin Name="Surface">
+      <SurfaceEnergyParameters CellType="1" LambdaSurface="1.41896659755" TargetSurface="16"/>
+      <SurfaceEnergyParameters CellType="2" LambdaSurface="1.20515191379" TargetSurface="21"/>
+   </Plugin>
+   <Plugin Name="CenterOfMass"/>
+   <Plugin Name="Contact">
+      <Energy Type1="Medium" Type2="Medium">0.0</Energy>
+      <Energy Type1="Wall" Type2="Wall">0.0</Energy>
+      <Energy Type1="Wall" Type2="Medium">0.0</Energy>
+      <Energy Type1="Medium" Type2="1">12</Energy>
+      <Energy Type1="Wall" Type2="1">50.0</Energy>
+      <Energy Type1="1" Type2="1">5</Energy>
+      <Energy Type1="1" Type2="2">4</Energy>
+      <Energy Type1="Medium" Type2="2">30</Energy>
+      <Energy Type1="Wall" Type2="2">50.0</Energy>
+      <Energy Type1="2" Type2="2">30</Energy>
+      <NeighborOrder>2</NeighborOrder>
+   </Plugin>
+   <Steppable Type="RandomFieldInitializer">
+      <offset x="10" y="10" z="0"/>
+      <growthsteps>10</growthsteps>
+      <order>2</order>
+      <types>1,2</types>
+      <ncells>139</ncells>
+   </Steppable>
+</CompuCell3D>
