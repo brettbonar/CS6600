@@ -1,0 +1,53 @@
+### Cellular Self-Organization
+Self-organization could be defined as the undirected movement of a chaotic structure into an ordered one. In a biological system, this may be seen as a formation of cells gradually reforms into a regular arrangement. Such arrangements could be lattices or grids that are identified as having regular or repeating patterns. These systems may prove valuable to disciplines such as medicine and bioengineering. Determining the behaviors with which to compose a self-organizing system is a nontrivial
+task. While many such systems have already been identified, the considerable amount of traits comprising cellular behaviors would make an exhaustive search of undiscovered systems impossible.
+
+Add images of organized cells.
+
+### Why?
+Self-organizing biological systems are potentially useful in medical and bioengineering fields.
+
+### Method
+This project implements a simple hill climber written in Python that works on a limited set of cellular behaviors from the CompuCell3D simulator. An evaluation of the set complexity of the simulated result of a biological system is used to determine self-
+organization and regularity (i.e. the fitness function).
+
+While CompuCell3D supports 3D cells, this simulation is limited to 2D for the purpose of simplicity and simulation speed. The CompuCell3D simulator supports a large number of cell attributes and behaviors. These have been narrowed down to a small number of variable parameters:
+* Contact (adhesion) energy between cells
+* Diffusion field parameters:
+ * Decay rate
+ * Diffusion constant
+ * Secretion rate for each cell type
+* Chemotaxis for each cell type
+
+The diffusion field and chemotaxis parameters are directly related. This project uses the CompuCell3D DiffusionSolverFE plugin. The secretion rate is the amount of chemical field that is secreted by each cell type. Chemotaxis then defines the rate at which cells are attracted to the chemical field. Chemotaxis is one of the most important and useful cellular properties for creating self-organizing biological systems.
+
+The hill climber performs a random walk on this list of parameters with each iteration. If the result of the simulation has a higher complexity than the previous best then this is taken as the new "best". This is repeated until no improvements have been made for the past 10 iterations, at which point the hill climber terminates and the latest best is taken as the most complex result.
+
+Description of set complexity.
+
+Sample of contact parameters
+
+### Results
+The following charts show some of the results of a few initial runs of the hill climber. The algorithm was run for 50 iterations. The initial configuration was random and each subsequent iteration modified a random parameter (currently limited to modifying only contact energy, but will be expanded to other parameters). The CompuCell3D simulator was run on each iteration for 1000 MCS and the final output evaluated for complexity.
+
+Improvement of complexity over time (iteration of hill climber).
+![](http://i1379.photobucket.com/albums/ah131/bbonar/Complexity_zpsb9aegc57.png)
+
+This shows the results of the simulation of the initial configuration after 1000 MCS
+![](http://i1379.photobucket.com/albums/ah131/bbonar/Worst_zpsdvknzinq.png)
+
+And the results of the best simulation (highest complexity) after 1000 MCS
+![](http://i1379.photobucket.com/albums/ah131/bbonar/Best_zpsu7zmfcbq.png)
+
+This second chart shows the value of the best complexity over time. Note how it quickly reaches a local maxima. This is generally not ideal as it potentially excludes better results. This should be able to be solved by increasing the number of iterations, simulation steps, expanding the list of variable parameters, and refining valid parameter ranges.
+
+![](http://i1379.photobucket.com/albums/ah131/bbonar/BestComplexity_zps3kxmqejb.png)
+
+# Instructions
+1. Install CompuCell3D simulator
+2. 
+
+### Remaining Work
+* Increase number of iterations and MCS steps
+* Expand the number of variable parameters, refine parameter ranges.
+* Clean up code, remove hardcoded paths and variables.

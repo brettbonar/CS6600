@@ -1,0 +1,45 @@
+<CompuCell3D Revision="20150808" Version="3.7.4">
+   <Potts>
+      <Dimensions x="100" y="100" z="1"/>
+      <Steps>1010</Steps>
+      <Temperature>10.0</Temperature>
+      <NeighborOrder>2</NeighborOrder>
+      <RandomSeed>758807</RandomSeed>
+   </Potts>
+   <Plugin Name="PlayerSettings">
+      <VisualControl ScreenshotFrequency="1000"/>
+   </Plugin>
+   <Plugin Name="CellType">
+      <CellType TypeId="0" TypeName="Medium"/>
+      <CellType TypeId="1" TypeName="1"/>
+      <CellType TypeId="2" TypeName="2"/>
+   </Plugin>
+   <Plugin Name="Surface">
+      <SurfaceEnergyParameters CellType="1" LambdaSurface="2.0" TargetSurface="25"/>
+      <SurfaceEnergyParameters CellType="2" LambdaSurface="2.0" TargetSurface="25"/>
+   </Plugin>
+   <Plugin Name="Volume">
+      <VolumeEnergyParameters CellType="1" LambdaVolume="2" TargetVolume="25"/>
+      <VolumeEnergyParameters CellType="2" LambdaVolume="2" TargetVolume="25"/>
+   </Plugin>
+   <Plugin Name="CenterOfMass"/>
+   <Plugin Name="Contact">
+      <Energy Type1="Medium" Type2="Medium">0.0</Energy>
+      <Energy Type1="Medium" Type2="1">16</Energy>
+      <Energy Type1="1" Type2="2">10</Energy>
+      <Energy Type1="1" Type2="1">2</Energy>
+      <Energy Type1="2" Type2="2">4</Energy>
+      <NeighborOrder>2</NeighborOrder>
+   </Plugin>
+   <Steppable Type="UniformInitializer">
+      <Region>
+         <BoxMin x="10" y="10" z="0"/>
+         <BoxMax x="90" y="90" z="1"/>
+         <Gap>0</Gap>
+         <Width>5</Width>
+         <Types>1,2</Types>
+         <seed>483732</seed>
+         <RandomSeed>792808</RandomSeed>
+      </Region>
+   </Steppable>
+</CompuCell3D>

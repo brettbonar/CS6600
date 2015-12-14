@@ -117,13 +117,14 @@ def setComplexity(files, path):
   for file1 in files:
     #size1 = os.path.getsize(file1)
     size1 = os.path.getsize(file1)
-    sumNcd = 0
+    #sumNcd = 0
     for file2 in files:
       if file1 != file2:
         ncd = getNcd(file1, file2, path)
-        print(ncd)
-        sumNcd += (ncd * (1 - ncd))
-    sumFiles += (size1 * sumNcd)
+        #sumFiles += size1 * ncd * (1 - ncd)
+        sumFiles += 500 * ncd * (1 - ncd)
+    #sumFiles += (size1 * sumNcd)
+  print(sumFiles)
   return (1 / (len(files) * (len(files) - 1))) * sumFiles
 
 def getFiles():

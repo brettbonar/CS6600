@@ -23,7 +23,7 @@
       <e Name="ScreenUpdateFrequency" Type="int">10</e>
       <e Name="Screenshot_X" Type="int">600</e>
       <e Name="Screenshot_Y" Type="int">600</e>
-      <e Name="TabIndex" Type="int">0</e>
+      <e Name="TabIndex" Type="int">1</e>
    </Settings>
    <Settings Type="float">
       <e Name="ArrowLength" Type="float">1.0</e>
@@ -34,7 +34,7 @@
    </Settings>
    <Settings Type="color">
       <e Name="ArrowColor" Type="color">#ffffff</e>
-      <e Name="BorderColor" Type="color">#ffff00</e>
+      <e Name="BorderColor" Type="color">#fbff00</e>
       <e Name="BoundingBoxColor" Type="color">#ffffff</e>
       <e Name="BrushColor" Type="color">#ffffff</e>
       <e Name="ClusterBorderColor" Type="color">#0000ff</e>
@@ -59,9 +59,9 @@
       </e>
       <e Name="WindowsLayout" Type="dict">
          <e Name="0" Type="dict">
-            <e Name="cameraClippingRange" Type="floatlist">516.034578324,529.065754544</e>
-            <e Name="cameraFocalPoint" Type="floatlist">120.718613951,93.6130432603,0.0</e>
-            <e Name="cameraPosition" Type="floatlist">120.718613951,93.6130432603,521.247048812</e>
+            <e Name="cameraClippingRange" Type="floatlist">240.733939231,246.813079111</e>
+            <e Name="cameraFocalPoint" Type="floatlist">51.3336007194,44.4077120575,0.0</e>
+            <e Name="cameraPosition" Type="floatlist">51.3336007194,44.4077120575,243.165595183</e>
             <e Name="cameraViewUp" Type="floatlist">0.0,1.0,0.0</e>
             <e Name="is3D" Type="bool">False</e>
             <e Name="planeName" Type="str">XY</e>
@@ -69,7 +69,7 @@
             <e Name="sceneName" Type="str">Cell_Field</e>
             <e Name="sceneType" Type="str">CellField</e>
             <e Name="winPosition" Type="point">0,0</e>
-            <e Name="winSize" Type="size">598,500</e>
+            <e Name="winSize" Type="size">460,500</e>
             <e Name="winType" Type="str">Graphics</e>
          </e>
       </e>
@@ -85,12 +85,12 @@
    <Settings Type="bool">
       <e Name="BoundingBoxOn" Type="bool">True</e>
       <e Name="CC3DOutputOn" Type="bool">True</e>
-      <e Name="CellBordersOn" Type="bool">True</e>
-      <e Name="CellGlyphScaleByVolumeOn" Type="bool">False</e>
+      <e Name="CellBordersOn" Type="bool">False</e>
+      <e Name="CellGlyphScaleByVolumeOn" Type="bool">True</e>
       <e Name="CellGlyphsOn" Type="bool">False</e>
       <e Name="CellsOn" Type="bool">True</e>
       <e Name="ClosePlayerAfterSimulationDone" Type="bool">False</e>
-      <e Name="ClusterBordersOn" Type="bool">True</e>
+      <e Name="ClusterBordersOn" Type="bool">False</e>
       <e Name="ConcentrationLimitsOn" Type="bool">True</e>
       <e Name="ContoursOn" Type="bool">False</e>
       <e Name="DisplayConsole" Type="bool">True</e>

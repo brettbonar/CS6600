@@ -20,12 +20,14 @@ from CC3DXML import *
   
 import copy
 import setComplexity
+import time
+import shutil
 
 path = "C:/Dev/CS6600/Project/Test/Output/"
 #path = "C:/Users/Brett/CC3DWorkspace"
-simulationSize = 220
+simulationSize = 100
 numCellTypes = random.randint(1, 2)
-ncells = 100#random.randint(100,200)
+ncells = 50#random.randint(100,200)
 
 def randomFloatStr(start, end):
   return str(random.uniform(start, end))
@@ -137,15 +139,15 @@ def configureSimulation():
     
   # Define volume for cell types
   for cell in range(1, numCellTypes + 1):
-    volume = random.randint(25, 100)
+    volume = random.randint(50, 100)
     lambdaVolume = volume / 2#randomIntStr(0, 100)
     PluginElmnt_1.ElementCC3D("VolumeEnergyParameters",{"CellType":str(cell),"LambdaVolume": str(lambdaVolume), "TargetVolume": str(volume)})
     
     
   # Define surface for cell types
-  PluginElmnt_2=CompuCell3DElmnt.ElementCC3D("Plugin",{"Name":"Surface"})
-  for cell in range(1, numCellTypes + 1):
-      PluginElmnt_2.ElementCC3D("SurfaceEnergyParameters",{"CellType":str(cell),"LambdaSurface":str(random.uniform(1.0, 2.0)),"TargetSurface":str(random.randint(12, 25))})
+  #PluginElmnt_2=CompuCell3DElmnt.ElementCC3D("Plugin",{"Name":"Surface"})
+  #for cell in range(1, numCellTypes + 1):
+  #    PluginElmnt_2.ElementCC3D("SurfaceEnergyParameters",{"CellType":str(cell),"LambdaSurface":str(random.uniform(1.0, 2.0)),"TargetSurface":str(random.randint(12, 25))})
     
   CompuCell3DElmnt.ElementCC3D("Plugin",{"Name":"CenterOfMass"})
   PluginElmnt_3=CompuCell3DElmnt.ElementCC3D("Plugin",{"Name":"Contact"})
@@ -187,7 +189,12 @@ def updateContact(newNode):
   max = 30
   contact = newNode.getFirstElement("Plugin", CC3DXML.MapStrStr({"Name": "Contact"}))
   nodes = [node for node in contact.getElements("Energy") if node.getAttribute("Type1") != "Wall" and node.getAttribute("Type2") != "Medium"]
-  random.choice(nodes).updateElementValue(getCellContact())
+  newContact = 0
+  if node.getAttribute("Type1") == "Medium":
+    newContact = getMediumCellContact()
+  else:
+    newContact = getCellContact()
+  random.choice(nodes).updateElementValue(newContact)
 
   ##cellType1 = random.randint(1, numCellTypes + 1)
   #cellType1 = random.randint(1, numCellTypes)
@@ -260,16 +267,17 @@ def testNode(node, path, iter):
     subprocess.call(command)
     print(command)
     files.append(max(getFiles(), key=os.path.getmtime))
-  return setComplexity.setComplexity(files, "C:/Dev/CS6600/Project/Test/Output")
+  return (setComplexity.setComplexity(files, path), files[0])
   #return os.path.getsize(file)
 
-bestList = []
-complexityList = []
-
-def writeBest(path, value):
+def writeBest(path, node, value, bestPng):
   bestFile = open(path + "/Best.txt", "a+")
   bestFile.write("%s\n" % value)
   bestFile.close()
+  xmlFile = open(path + "/Best.xml", "w+")
+  xmlFile.write(node)
+  xmlFile.close()
+  shutil.copyfile(bestPng, path + "/Best.png")
   
 def writeComplexity(path, value):
   bestFile = open(path + "/Complexity.txt", "a+")
@@ -285,41 +293,24 @@ def run():
   iteration = 0
   element = configureSimulation()
   currentNode = element.CC3DXMLElement.getCC3DXMLElementString()
-  currentComplexity = testNode(currentNode, path, iteration)
-  #currentComplexity = testNode(currentNode)
-  #currentNode = cellSorting()
-  #newNode = randomWalk(currentNode)
-  
+  currentComplexity, bestFile = testNode(currentNode, path, iteration)
 
-  complexityFile = open(path + "/Complexity.txt", "w+")
-  #for i in range(9):
-    #currentNode.CC3DXMLElement.getFirstElement("Potts").getFirstElement("RandomSeed").updateElementValue(str(random.randint(1, 9999999)))
-    #testNode(currentNode)
-  bestList.append(currentComplexity)
-  complexityList.append(currentComplexity)
-  complexityFile.write("%s\n" % currentComplexity)
-  complexityFile.close()
-  bestFile.close()
+  writeBest(path, currentNode, currentComplexity, bestFile)
+  writeComplexity(path, currentComplexity)  
+
   bestCount = 1 # number of iterations that best has not improved
   while bestCount < 20:
     iteration += 1
     newNode = randomWalk(currentNode)
-    newComplexity = testNode(newNode, path, iteration)
-    complexityList.append(newComplexity)
-    complexityFile = open(path + "/Complexity.txt", "w+")
-    complexityFile.write("%s\n" % currentComplexity)
-    complexityFile.close()
+    # TRICKY: attempt at avoiding CC3D freeze/crash
+    time.sleep(1)
+    newComplexity, bestFile = testNode(newNode, path, iteration)
+    writeComplexity(path, newComplexity)
     if (newComplexity > currentComplexity):
-      bestFile = open(path + "/Best.txt", "w+")
-      bestFile.write("%s\n" % newComplexity)
-      bestFile.close()
+      writeBest(path, newNode, newComplexity, bestFile)
       bestCount = 0
       currentNode = newNode
       currentComplexity = newComplexity
-      bestList.append(currentComplexity)
-      xmlFile = open(path + "/Best.xml", "w+")
-      xmlFile.write(currentNode)
-      xmlFile.close()
     bestCount += 1
 
   return currentNode
